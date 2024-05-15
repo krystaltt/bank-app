@@ -1,0 +1,5 @@
+body.backgroundImg {
+  background: url("../Components/Assets/loginBackground.jpg") no-repeat;
+  background-size: cover;
+  background-position: center;
+}

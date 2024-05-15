@@ -1,0 +1,86 @@
+.wrapperA {
+  position: relative;
+  width: 460px;
+  height: 480px;
+  background: transparent;
+  background-color: rgba(6, 43, 57, 0.6);
+  border: 2px solidrgb(21, 52, 72, 0.3);
+  backdrop-filter: blur(30px);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  color: rgb(238, 247, 255, 0.2);
+  display: flex;
+  align-items: center;
+}
+
+.page {
+  min-height: 100vh;
+  background: url("../Assets/loginBackground.jpg") no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.wrapbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.wrapperA h1 {
+  color: #fff;
+}
+
+form .input-boxA {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin: 30px 0;
+}
+.input-boxA input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 40px;
+  font-size: 16px;
+  color: #fff;
+  padding: 20px 45px 20px 20px;
+}
+
+.input-boxA input::placeholder {
+  color: rgb(238, 247, 255, 0.6);
+}
+
+.wrapperA .form-box {
+  width: 100%;
+  padding: 40px;
+}
+
+.input-boxA .icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  translate: 0 -50%;
+  font-size: 20px;
+  color: rgb(238, 247, 255, 0.8);
+}
+
+.logout-link a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.logout-link a:hover {
+  text-decoration: underline;
+}
+
+form .logout-link {
+  font-size: 14.5px;
+  text-align: right;
+  margin: 60px 0 15px;
+}
