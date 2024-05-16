@@ -12,12 +12,21 @@ const Account = () => {
 
   //handling amounts
   const [Data, setData] = useState({
-    deposit: 0,
-    withdraw: 0,
+    deposit: "",
+    withdraw: "",
   });
   const [displayText, setDisplayText] = useState("Balance$");
 
   const handleChange = ({ currentTarget: input }) => {
+    const { name, value } = input;
+
+    // Enable/disable inputs based on the other field's value
+    if (name === "deposit" && Data.withdraw !== "") {
+      return; // Exit without updating state
+    } else if (name === "withdraw" && Data.deposit !== "") {
+      return; // Exit without updating state
+    }
+
     setData({ ...Data, [input.name]: input.value });
     
     console.log("handleChange");
@@ -52,6 +61,7 @@ const Account = () => {
                   name="deposit"
                   value={Data.deposit}
                   onChange={handleChange}
+                  disabled={Data.withdraw !== ""}
                 />
                 <PiHandDepositFill className="icon" />
               </div>
@@ -62,6 +72,7 @@ const Account = () => {
                   name="withdraw"
                   value={Data.withdraw}
                   onChange={handleChange}
+                  disabled={Data.deposit !== ""}
                 />
                 <PiHandWithdrawFill className="icon" />
               </div>
