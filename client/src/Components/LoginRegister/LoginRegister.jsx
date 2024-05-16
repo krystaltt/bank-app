@@ -10,10 +10,12 @@ const LoginRegister = () => {
 
   const registerLink = () => {
     setAction(" active");
+    setLoginData({ userName: "", password: "" });
   };
 
   const loginLink = () => {
     setAction("");
+    setRegistData({ userName: "", password: "", confirmPassword: "" });
   };
 
   //handling register
@@ -24,6 +26,10 @@ const LoginRegister = () => {
   });
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [errorRegist, setErrorRegist] = useState("");
+  const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+  const [errorMessageVisibleRegist, setErrorMessageVisibleRegist] =
+    useState(false);
 
   const handleChange = ({ currentTarget: input }) => {
     setRegistData({ ...registData, [input.name]: input.value });
@@ -38,6 +44,7 @@ const LoginRegister = () => {
       const url = "http://localhost:8080/api/register";
       const { data: res } = await axios.post(url, registData);
       navigate("/login");
+      loginLink();
       console.log(res.message);
     } catch (error) {
       if (
@@ -45,7 +52,14 @@ const LoginRegister = () => {
         error.response.status >= 400 &&
         error.response.status <= 500
       ) {
-        setError(error.response.data.message);
+        setErrorRegist(error.response.data.message);
+
+        setErrorMessageVisibleRegist(true);
+
+        // Set a timeout to hide the error message after 5 seconds
+        setTimeout(() => {
+          setErrorMessageVisibleRegist(false);
+        }, 5000);
       }
     }
   };
@@ -73,6 +87,13 @@ const LoginRegister = () => {
         error.response.status <= 500
       ) {
         setError(error.response.data.message);
+
+        setErrorMessageVisible(true);
+
+        // Set a timeout to hide the error message after 5 seconds
+        setTimeout(() => {
+          setErrorMessageVisible(false);
+        }, 5000);
       }
     }
   };
@@ -109,7 +130,9 @@ const LoginRegister = () => {
               />
               <FaLock className="icon" />
             </div>
-
+            {errorMessageVisible && error && (
+              <div className="error_msg">{error}</div>
+            )}
             <button type="submit">Login</button>
 
             <div className="register-link">
@@ -159,7 +182,9 @@ const LoginRegister = () => {
               />
               <FaLock className="icon" />
             </div>
-            {error && <div className="error_msg">{error}</div>}
+            {errorMessageVisibleRegist && errorRegist && (
+              <div className="error_msg">{error}</div>
+            )}
             <button type="submit">Register</button>
 
             <div className="register-link">

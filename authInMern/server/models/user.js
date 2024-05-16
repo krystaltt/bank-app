@@ -20,9 +20,30 @@ const User = mongoose.model("user", userSchema);
 
 const validate = (data) => {
   const schema = Joi.object({
-    userName: Joi.string().required().label("userName"),
-    password: passwordComplexity().required().label("password"),
-    confirmPassword: passwordComplexity().required().label("ConfirmPassword"),
+    userName: Joi.string()
+      .regex(/^[a-z0-9._-]{1,127}$/)
+      .regex(/^[_\-\.0-9a-z]{1,127}$/)
+      .required()
+      .label("userName")
+      .messages({
+        "string.pattern.base":
+          "User names can only consist of underscores, hyphens, dots, digits, and lowercase alphabetical characters (1-127 characters long).",
+      }),
+    password: Joi.string()
+      .regex(/^[a-z0-9._-]{1,127}$/)
+      .required()
+      .label("password")
+      .messages({
+        "string.pattern.base":
+          "Passwords can only consist of underscores, hyphens, dots, digits, and lowercase alphabetical characters (1-127 characters long).",
+      }),
+    confirmPassword: Joi.string()
+      .valid(Joi.ref("password"))
+      .required()
+      .label("confirmPassword")
+      .messages({
+        "any.only": "Passwords must match.",
+      }),
   });
   return schema.validate(data);
 };
