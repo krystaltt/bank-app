@@ -23,7 +23,7 @@ router.post("/register", async (req, res) => {
         .status(409)
         .send({ message: "password does not match with confirmPassword!" });
 
-    await new User({ ...req.body, password: hashPassword }).save();
+    await new User({ ...req.body, password: hashPassword,balance:0}).save();
     res.status(201).send({ message: "User created successfully" });
   } catch (error) {
     res.status(500).send({ message: "Internal Server Error" });

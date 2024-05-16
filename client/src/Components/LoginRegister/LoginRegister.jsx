@@ -35,7 +35,7 @@ const LoginRegister = () => {
     console.log("Submitregister");
     console.log(registData);
     try {
-      const url = "http://localhost:8080/api/register";
+      const url = "http://localhost:3007/api/register";
       const { data: res } = await axios.post(url, registData);
       navigate("/login");
       console.log(res.message);
@@ -60,7 +60,7 @@ const LoginRegister = () => {
     console.log("submit login");
     e.preventDefault();
     try {
-      const url = "http://localhost:8080/api/login";
+      const url = "http://localhost:3007/api/login";
       const { data: res } = await axios.post(url, loginData);
       localStorage.setItem("token", res.data);
       window.location = "/";

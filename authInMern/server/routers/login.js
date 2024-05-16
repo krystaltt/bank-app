@@ -1,9 +1,10 @@
-const router = require("express").Router();
+const loginRoutes = require("express").Router();
 const { User } = require("../models/user");
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
+const user={};
 
-router.post("/login", async (req, res) => {
+loginRoutes.post("/login", async (req, res) => {
   try {
     const { error } = validate(req.body);
     if (error)
@@ -35,4 +36,4 @@ const validate = (data) => {
   return schema.validate(data);
 };
 
-module.exports = router;
+module.exports = {loginRoutes,user};

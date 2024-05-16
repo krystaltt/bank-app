@@ -4,9 +4,8 @@ const app = express();
 const cors = require("cors");
 const connection = require("./db");
 const registerRoutes = require("./routers/register");
-const loginRoutes = require("./routers/login");
-const withdrawRouter = require("./routers/withdraw");
-const depositRouter = require("./routers/deposit");
+const { loginRoutes } = require("./routers/login");
+const balanceRouter = require("./routers/balance");
 
 //database connection
 connection();
@@ -18,8 +17,7 @@ app.use(cors());
 //routes
 app.use("/api", registerRoutes);
 app.use("/api", loginRoutes);
-app.use("/api", withdrawRouter);
-app.use("/api", depositRouter);
+app.use("/api", balanceRouter);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Listen on port ${port}...`));

@@ -12,13 +12,14 @@ const Account = () => {
 
   //handling amounts
   const [Data, setData] = useState({
-    deposit: "",
-    withdraw: "",
+    deposit: 0,
+    withdraw: 0,
   });
   const [displayText, setDisplayText] = useState("Balance$");
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...Data, [input.name]: input.value });
+    
     console.log("handleChange");
   };
 
@@ -55,7 +56,7 @@ const Account = () => {
                 <PiHandDepositFill className="icon" />
               </div>
               <div className="input-boxA">
-                <input
+                <input 
                   type="number"
                   placeholder="Withdraw"
                   name="withdraw"
