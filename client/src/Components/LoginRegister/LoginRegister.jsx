@@ -52,12 +52,13 @@ const LoginRegister = () => {
 
   //handling login
   const [loginData, setLoginData] = useState({
-    username: "",
+    userName: "",
     password: "",
   });
 
   const SubmitLogin = async (e) => {
     console.log("submit login");
+    console.log(loginData);
     e.preventDefault();
     try {
       const url = "http://localhost:8080/api/login";
