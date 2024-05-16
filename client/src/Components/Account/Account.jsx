@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Account.css";
 import { PiHandWithdrawFill, PiHandDepositFill } from "react-icons/pi";
 import Nav from "../Navbar/Navbar";
+import axios from "axios";
 
 const Account = () => {
   //logout
@@ -36,9 +37,24 @@ const Account = () => {
     e.preventDefault(); // Prevent default form submission behavior
     console.log("submit amount");
     console.log(Data);
-    //haven't submit the data to the database
-    //get the new balence from data to display
-    setDisplayText("$New Balance");
+
+    try {
+      const url="http://localhost:3007/api/account"
+      const {data:res} =await axios.post(url,Data)
+
+      //get the new balence from data to display
+      setDisplayText(`${res.data}`);
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.status >= 400 &&
+        error.response.status < 500
+      ) {
+        alert(error.response.data.message)
+      }else {
+        alert("network connection is wrong, please wait and try again!")
+      }
+    }
     setData({ deposit: "", withdraw: "" }); //clean up input
   };
 

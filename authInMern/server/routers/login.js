@@ -1,16 +1,16 @@
-const loginRoutes = require("express").Router();
+const router = require("express").Router();
 const { User } = require("../models/user");
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
-const user={};
 
-loginRoutes.post("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const { error } = validate(req.body);
     if (error)
       return res.status(400).send({ message: error.details[0].message });
 
     const user = await User.findOne({ userName: req.body.userName });
+    
     if (!user)
       return res.status(401).send({ message: "Invalid UserName or Password" });
 
@@ -36,4 +36,4 @@ const validate = (data) => {
   return schema.validate(data);
 };
 
-module.exports = {loginRoutes,user};
+module.exports = router
