@@ -1,14 +1,28 @@
 const router = require("express").Router();
 const { User } = require("../models/user");
 
+router.get("/account",async(req,res)=>{
+    console.log(req.query)
+    const userName=req.query.userName
+    try {
+      const user= await User.findOne({userName:userName})
+      return res.status(200).send({data:user.balance,message:"Find user successfully!"})
+    } catch (error) {
+      return res.status(500).send({message:"Internal Server Error"})
+    }
+    
+})
+
+
 //deposit
 router.post("/account", async (req, res) => {
   try {
-    const user=res.locals.user
+    const userName=req.body.userName
+    const user=await User.findOne({userName:userName})
     console.log(user)
 
     var saveMoney=user.balance
-    console.log(req.body)
+    
 
     if(req.body.deposit.length===0&&req.body.withdraw.length===0){
       return res.status(400).send({message:"please input deposit or withdraw money!"})
@@ -44,7 +58,7 @@ router.post("/account", async (req, res) => {
     if(result===0){
       return res.status(500).send({message:"fail to deposit or withdraw, please try again"})
     }
-    const newUser=await User.findOne({userName:user.userName})
+   
     return res.status(200).send({data:saveMoney,message:"account manipulation successful"})
     
   } catch (error) {

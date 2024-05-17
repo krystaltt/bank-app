@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Account.css";
 import { PiHandWithdrawFill, PiHandDepositFill } from "react-icons/pi";
 import Nav from "../Navbar/Navbar";
 import axios from "axios";
 
+
 const Account = () => {
+  const userName=localStorage.getItem("userName")
   //logout
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -15,11 +17,33 @@ const Account = () => {
   const [Data, setData] = useState({
     deposit: "",
     withdraw: "",
+    userName:""
   });
-  const [displayText, setDisplayText] = useState("Balance$");
+
+  const [displayText, setDisplayText] = useState("$balance");
+
+  useEffect(()=>{
+    const fetchData=async()=>{
+      try {
+        const url="http://localhost:3007/api/account"
+        
+        const {data:res}=await axios.get(url,{params:{
+          userName:userName
+        }})
+        
+        setDisplayText(`${res.data}`)
+      } catch (error) {
+        alert("network connection is wrong, please wait and try again!")
+      }
+    }
+    fetchData()
+  },[])
+
+  
 
   const handleChange = ({ currentTarget: input }) => {
     const { name, value } = input;
+
 
     // Enable/disable inputs based on the other field's value
     if (name === "deposit" && Data.withdraw !== "") {
@@ -28,8 +52,9 @@ const Account = () => {
       return; // Exit without updating state
     }
 
-    setData({ ...Data, [input.name]: input.value });
+    setData({ ...Data, [input.name]: input.value,userName:userName});
     
+    console.log(Data)
     console.log("handleChange");
   };
 
@@ -108,5 +133,6 @@ const Account = () => {
     </div>
   );
 };
+
 
 export default Account;
