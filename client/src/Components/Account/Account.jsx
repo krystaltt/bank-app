@@ -39,7 +39,6 @@ const Account = () => {
             }else{
               setDisplayText(`${newBalance}`)
             }
-         
         }else{
           setDisplayText(`${newBalance}`.concat(".00"))
         }
@@ -79,11 +78,15 @@ const Account = () => {
 
       //get the new balence from data to display
       const newBalance=res.data
-        if(!Number.isInteger(newBalance)){
-          setDisplayText(`${newBalance}`)
+      if(!Number.isInteger(newBalance)){
+        if(newBalance.toString().includes('.')){
+          setDisplayText(`${newBalance}`.concat("0"))
         }else{
-          setDisplayText(`${newBalance}`.concat(".00"))
+          setDisplayText(`${newBalance}`)
         }
+      }else{
+        setDisplayText(`${newBalance}`.concat(".00"))
+      }
     } catch (error) {
       if (
         error.response &&
