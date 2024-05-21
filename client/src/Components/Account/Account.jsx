@@ -30,8 +30,15 @@ const Account = () => {
         const {data:res}=await axios.get(url,{params:{
           userName:userName
         }})
+
+        //show balance 
+        const newBalance=res.data
+        if(!Number.isInteger(newBalance)){
+          setDisplayText(`${newBalance}`)
+        }else{
+          setDisplayText(`${newBalance}`.concat(".00"))
+        }
         
-        setDisplayText(`${res.data}`)
       } catch (error) {
         alert("network connection is wrong, please wait and try again!")
       }
@@ -54,21 +61,24 @@ const Account = () => {
 
     setData({ ...Data, [input.name]: input.value,userName:userName});
     
-    console.log(Data)
+
     console.log("handleChange");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
-    console.log("submit amount");
-    console.log(Data);
 
     try {
       const url="http://localhost:3007/api/account"
       const {data:res} =await axios.post(url,Data)
 
       //get the new balence from data to display
-      setDisplayText(`${res.data}`);
+      const newBalance=res.data
+        if(!Number.isInteger(newBalance)){
+          setDisplayText(`${newBalance}`)
+        }else{
+          setDisplayText(`${newBalance}`.concat(".00"))
+        }
     } catch (error) {
       if (
         error.response &&

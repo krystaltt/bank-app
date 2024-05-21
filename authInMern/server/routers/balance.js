@@ -2,7 +2,6 @@ const router = require("express").Router();
 const { User } = require("../models/user");
 
 router.get("/account",async(req,res)=>{
-    console.log(req.query)
     const userName=req.query.userName
     try {
       const user= await User.findOne({userName:userName})
@@ -19,32 +18,45 @@ router.post("/account", async (req, res) => {
   try {
     const userName=req.body.userName
     const user=await User.findOne({userName:userName})
-    console.log(user)
 
     var saveMoney=user.balance
     
-
+    //check if both deposit and withdraw are empty
     if(req.body.deposit.length===0&&req.body.withdraw.length===0){
       return res.status(400).send({message:"please input deposit or withdraw money!"})
     }
 
-    if(req.body.deposit[0]==='-'||req.body.withdraw[0]==='-'){
-      return res.status(400).send({message:"please input valid number!"})
-    }
+    //the standard pattern of deposit and withdraw number
+    const decimalPattern = /^(0|[1-9]\d*)\.\d{2}$/;
 
     //get the number of deposit or withdraw
-    var deposit=0
+    var deposit=0.00
     if(req.body.deposit.length>0){
-      deposit=parseInt(req.body.deposit)
-      console.log(deposit)
+      var depositString=req.body.deposit
+      if(!depositString.includes('.')){
+         depositString=depositString+".00"
+      }
+      if(!decimalPattern.test(depositString)){
+        return res.status(400).send({message:"please input valid number!"})
+      }
+      deposit=parseFloat(depositString)
+      
     }
 
-    var withdraw=0
+    var withdraw=0.00
     if(req.body.withdraw.length>0){
-      withdraw=parseInt(req.body.withdraw)
+      var withdrawString=req.body.withdraw
+      if(!withdrawString.includes('.')){
+        withdrawString=withdrawString+".00"
+      }
+      if(!decimalPattern.test(withdrawString)){
+        return res.status(400).send({message:"please input valid number!"})
+      }
+      withdraw=parseFloat(withdrawString)
     }
 
   
+    //check if withdraw is larger than balance or not
     if(withdraw>saveMoney){
       return res.status(400).send({message:"withdraw money can't larger than balance, please input again!"})
     }
@@ -55,6 +67,7 @@ router.post("/account", async (req, res) => {
     const filter={userName:user.userName}
     const update={$set:{balance:saveMoney}}
     const result=await User.updateOne(filter,update)
+
     if(result===0){
       return res.status(500).send({message:"fail to deposit or withdraw, please try again"})
     }

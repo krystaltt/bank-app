@@ -52,6 +52,7 @@ const LoginRegister = () => {
         error.response.status >= 400 &&
         error.response.status <= 500
       ) {
+        
         setErrorRegist(error.response.data.message);
 
         setErrorMessageVisibleRegist(true);
