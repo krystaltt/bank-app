@@ -1,3 +1,5 @@
+![Local Image](/client/src/Components/Assets/loginPageScreenshot.png)
+
 ### Instructions to Setup:
 
 ### Note:
