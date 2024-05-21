@@ -33,12 +33,20 @@ router.post("/account", async (req, res) => {
     var deposit=0.00
     if(req.body.deposit.length>0){
       var depositString=req.body.deposit
+      // when input is a integer or a float with a decimal, change it to a float with two decimals
       if(!depositString.includes('.')){
          depositString=depositString+".00"
       }
+      
+      if(depositString[depositString.length-2]=='.'){
+        depositString=depositString+'0'
+      }
+
+      //check if deposit is valid or not
       if(!decimalPattern.test(depositString)){
         return res.status(400).send({message:"please input valid number!"})
       }
+
       deposit=parseFloat(depositString)
       
     }
@@ -46,9 +54,17 @@ router.post("/account", async (req, res) => {
     var withdraw=0.00
     if(req.body.withdraw.length>0){
       var withdrawString=req.body.withdraw
+
+      // when input is a integer or a float with a decimal, change it to a float with two decimals
       if(!withdrawString.includes('.')){
         withdrawString=withdrawString+".00"
       }
+
+      if(withdrawString[withdrawString.length-2]=='.'){
+        withdrawString=withdrawString+'0'
+      }
+      
+      //check if withdraw number is valid or not
       if(!decimalPattern.test(withdrawString)){
         return res.status(400).send({message:"please input valid number!"})
       }
