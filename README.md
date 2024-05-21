@@ -1,5 +1,9 @@
 ### Instructions to Setup:
 
+### Note:
+
+Make sure that ports 3000 and 3007 are both available for our back-end and front-end servers.
+
 #### Setting up Back-end:
 
 1. Navigate to the `authInMern` folder:
