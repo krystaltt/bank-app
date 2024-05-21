@@ -8,7 +8,7 @@ Make sure that ports 3000 and 3007 are both available for our back-end and front
 
 #### Setting up Back-end:
 
-1. Open a Terminal
+1. Open a Terminal (in bank-app)
 
 2. Navigate to the `authInMern` folder:
 
@@ -36,7 +36,7 @@ Make sure that ports 3000 and 3007 are both available for our back-end and front
 
 #### Setting up Front-end:
 
-1. Open another Terminal
+1. Open another Terminal(in bank-app)
 
 2. Navigate to the `client` folder:
 
