@@ -34,7 +34,12 @@ const Account = () => {
         //show balance 
         const newBalance=res.data
         if(!Number.isInteger(newBalance)){
-          setDisplayText(`${newBalance}`)
+            if(newBalance.toString().includes('.')){
+              setDisplayText(`${newBalance}`.concat("0"))
+            }else{
+              setDisplayText(`${newBalance}`)
+            }
+         
         }else{
           setDisplayText(`${newBalance}`.concat(".00"))
         }
