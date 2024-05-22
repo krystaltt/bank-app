@@ -6,6 +6,10 @@
 
 Make sure that ports 3000 and 3007 are both available for our back-end and front-end servers.
 
+#### Prerequest:
+
+Install Node.js and npm
+
 #### Setting up Back-end:
 
 1. Open a Terminal (in bank-app)
