@@ -52,7 +52,6 @@ const LoginRegister = () => {
         error.response.status >= 400 &&
         error.response.status <= 500
       ) {
-        
         setErrorRegist(error.response.data.message);
 
         setErrorMessageVisibleRegist(true);
@@ -71,21 +70,16 @@ const LoginRegister = () => {
     password: "",
   });
 
-  
-
   const SubmitLogin = async (e) => {
-    
-    
     console.log("submit login");
     console.log(loginData);
     e.preventDefault();
-    
-    
+
     try {
       const url = "http://localhost:3007/api/login";
       const { data: res } = await axios.post(url, loginData);
       localStorage.setItem("token", res.data);
-      localStorage.setItem("userName",loginData.userName)
+      localStorage.setItem("userName", loginData.userName);
 
       window.location = "/";
       console.log(res.message);
@@ -109,7 +103,6 @@ const LoginRegister = () => {
 
   const handleChangeLogin = ({ currentTarget: input }) => {
     setLoginData({ ...loginData, [input.name]: input.value });
-    
   };
 
   return (
@@ -193,7 +186,7 @@ const LoginRegister = () => {
               <FaLock className="icon" />
             </div>
             {errorMessageVisibleRegist && errorRegist && (
-              <div className="error_msg">{error}</div>
+              <div className="error_msg">{errorRegist}</div>
             )}
             <button type="submit">Register</button>
 

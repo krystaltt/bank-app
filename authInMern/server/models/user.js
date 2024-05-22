@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   userName: { type: String, required: true },
   password: { type: String, required: true },
   confirmPassword: { type: String, required: true },
-  balance: {type: Number,required:false}
+  balance: { type: Number, required: false },
 });
 
 userSchema.methods.generateAuthToken = function () {
@@ -28,7 +28,7 @@ const validate = (data) => {
       .label("userName")
       .messages({
         "string.pattern.base":
-          "User names can only consist of underscores, hyphens, dots, digits, and lowercase alphabetical characters (1-127 characters long).",
+          "Invalid: User names & Password can only consist of underscores, hyphens, dots, digits, and lowercase alphabetical charactersredf",
       }),
     password: Joi.string()
       .regex(/^[a-z0-9._-]{1,127}$/)
@@ -36,14 +36,14 @@ const validate = (data) => {
       .label("password")
       .messages({
         "string.pattern.base":
-          "Passwords can only consist of underscores, hyphens, dots, digits, and lowercase alphabetical characters (1-127 characters long).",
+          "Invalid: User names & Password can only consist of underscores, hyphens, dots, digits, and lowercase alphabetical characters",
       }),
     confirmPassword: Joi.string()
       .valid(Joi.ref("password"))
       .required()
       .label("confirmPassword")
       .messages({
-        "any.only": "Passwords must match.",
+        "any.only": "Invalid: Passwords must match.",
       }),
   });
   return schema.validate(data);
