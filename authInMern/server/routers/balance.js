@@ -46,6 +46,9 @@ router.post("/account", async (req, res) => {
       if(!decimalPattern.test(depositString)){
         return res.status(400).send({message:"please input valid number!"})
       }
+      if(parseFloat(depositString)>4294967295.99){
+        return res.status(400).send({message:"Amount out of range, please try again"})
+      }
 
       deposit=parseFloat(depositString)
       
@@ -66,7 +69,10 @@ router.post("/account", async (req, res) => {
       
       //check if withdraw number is valid or not
       if(!decimalPattern.test(withdrawString)){
-        return res.status(400).send({message:"please input valid number!"})
+        return res.status(400).send({message:"invalid,pattern, please input valid number!"})
+      }
+      if(parseFloat(withdrawString)>4294967295.99){
+        return res.status(400).send({message:"Amount out of range, please try again"})
       }
       withdraw=parseFloat(withdrawString)
     }
