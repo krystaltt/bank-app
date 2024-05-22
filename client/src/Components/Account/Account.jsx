@@ -7,18 +7,22 @@ import axios from "axios";
 
 const Account = () => {
   const userName=localStorage.getItem("userName")
+
+  //handling amounts
+  const [Data, setData] = useState({
+    deposit: "",
+    withdraw: "",
+    userName:userName
+  });
+
+  
   //logout
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.reload();
   };
 
-  //handling amounts
-  const [Data, setData] = useState({
-    deposit: "",
-    withdraw: "",
-    userName:""
-  });
+  
 
   const [displayText, setDisplayText] = useState("$balance");
 
@@ -32,16 +36,8 @@ const Account = () => {
         }})
 
         //show balance 
-        const newBalance=res.data
-        if(!Number.isInteger(newBalance)){
-            if(newBalance.toString().includes('.')){
-              setDisplayText(`${newBalance}`.concat("0"))
-            }else{
-              setDisplayText(`${newBalance}`)
-            }
-        }else{
-          setDisplayText(`${newBalance}`.concat(".00"))
-        }
+        const newBalance=res.data.toFixed(2)
+        setDisplayText(`${newBalance}`)
         
       } catch (error) {
         alert("network connection is wrong, please wait and try again!")
@@ -71,22 +67,18 @@ const Account = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
+    if(Data.deposit.length===0&&Data.withdraw.length===0){
+      return alert("please input deposit or withdraw money!")
+    }
 
     try {
       const url="http://localhost:3007/api/account"
       const {data:res} =await axios.post(url,Data)
 
       //get the new balence from data to display
-      const newBalance=res.data
-      if(!Number.isInteger(newBalance)){
-        if(newBalance.toString().includes('.')){
-          setDisplayText(`${newBalance}`.concat("0"))
-        }else{
-          setDisplayText(`${newBalance}`)
-        }
-      }else{
-        setDisplayText(`${newBalance}`.concat(".00"))
-      }
+     //show balance 
+     const newBalance=res.data.toFixed(2)
+     setDisplayText(`${newBalance}`)
     } catch (error) {
       if (
         error.response &&

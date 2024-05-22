@@ -16,56 +16,35 @@ router.get("/account",async(req,res)=>{
 //deposit
 router.post("/account", async (req, res) => {
   try {
+    
     const userName=req.body.userName
     const user=await User.findOne({userName:userName})
 
     var saveMoney=user.balance
-    
-    //check if both deposit and withdraw are empty
-    if(req.body.deposit.length===0&&req.body.withdraw.length===0){
-      return res.status(400).send({message:"please input deposit or withdraw money!"})
-    }
 
     //the standard pattern of deposit and withdraw number
-    const decimalPattern = /^(0|[1-9]\d*)\.\d{2}$/;
+    const decimalPattern = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/
 
     //get the number of deposit or withdraw
     var deposit=0.00
     if(req.body.deposit.length>0){
       var depositString=req.body.deposit
-      // when input is a integer or a float with a decimal, change it to a float with two decimals
-      if(!depositString.includes('.')){
-         depositString=depositString+".00"
-      }
-      
-      if(depositString[depositString.length-2]=='.'){
-        depositString=depositString+'0'
-      }
 
       //check if deposit is valid or not
       if(!decimalPattern.test(depositString)){
         return res.status(400).send({message:"please input valid number!"})
       }
+
       if(parseFloat(depositString)>4294967295.99){
         return res.status(400).send({message:"Amount out of range, please try again"})
       }
 
-      deposit=parseFloat(depositString)
-      
+      deposit=parseFloat(parseFloat(depositString).toFixed(2))
     }
 
     var withdraw=0.00
     if(req.body.withdraw.length>0){
       var withdrawString=req.body.withdraw
-
-      // when input is a integer or a float with a decimal, change it to a float with two decimals
-      if(!withdrawString.includes('.')){
-        withdrawString=withdrawString+".00"
-      }
-
-      if(withdrawString[withdrawString.length-2]=='.'){
-        withdrawString=withdrawString+'0'
-      }
       
       //check if withdraw number is valid or not
       if(!decimalPattern.test(withdrawString)){
@@ -74,7 +53,7 @@ router.post("/account", async (req, res) => {
       if(parseFloat(withdrawString)>4294967295.99){
         return res.status(400).send({message:"Amount out of range, please try again"})
       }
-      withdraw=parseFloat(withdrawString)
+      withdraw=parseFloat(parseFloat(withdrawString).toFixed(2))
     }
 
   
@@ -85,6 +64,7 @@ router.post("/account", async (req, res) => {
     
     saveMoney=saveMoney+deposit
     saveMoney=saveMoney-withdraw
+    saveMoney=parseFloat(saveMoney.toFixed(2))
 
     const filter={userName:user.userName}
     const update={$set:{balance:saveMoney}}
