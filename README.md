@@ -38,6 +38,8 @@ Install Node.js and npm
    npm start
 ```
 
+Tip: If error occurs when running the back-end side, is bcrypt_lib.node is not a valid Win32 application, try to remove the node_modules and then repeat the No.4 step to install all dependencies.
+
 #### Setting up Front-end:
 
 1. Open another Terminal (in bank-app)
