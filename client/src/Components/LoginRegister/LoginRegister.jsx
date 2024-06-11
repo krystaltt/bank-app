@@ -41,7 +41,7 @@ const LoginRegister = () => {
     console.log("Submitregister");
     //vulnerability fix: CWE-532: Insertion of sensitive information into Log file: console.log(registData); is removed
     try {
-      const url = "http://localhost:3007/api/register";
+      const url = `${process.env.REACT_APP_SERVER_API_URL}:${process.env.REACT_APP_PORT}/api/register`;
       const { data: res } = await axios.post(url, registData);
       navigate("/login");
       loginLink();
@@ -76,7 +76,8 @@ const LoginRegister = () => {
     e.preventDefault();
 
     try {
-      const url = "http://localhost:3007/api/login";
+      
+      const url=`${process.env.REACT_APP_SERVER_API_URL}:${process.env.REACT_APP_PORT}/api/login`;
       const { data: res } = await axios.post(url, loginData);
       localStorage.setItem("token", res.data);
       localStorage.setItem("userName", loginData.userName);

@@ -72,7 +72,7 @@ const Account = () => {
     }
 
     try {
-      const url="http://localhost:3007/api/account"
+      const url=`${process.env.REACT_APP_SERVER_API_URL}:${process.env.REACT_APP_PORT}/api/account`;
       const {data:res} =await axios.post(url,Data)
 
       //get the new balence from data to display
