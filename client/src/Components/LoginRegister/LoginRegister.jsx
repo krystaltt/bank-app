@@ -39,7 +39,7 @@ const LoginRegister = () => {
   const Submitregister = async (e) => {
     e.preventDefault();
     console.log("Submitregister");
-    console.log(registData);
+    //vulnerability fix: CWE-532: Insertion of sensitive information into Log file: console.log(registData); is removed
     try {
       const url = "http://localhost:3007/api/register";
       const { data: res } = await axios.post(url, registData);
@@ -72,7 +72,7 @@ const LoginRegister = () => {
 
   const SubmitLogin = async (e) => {
     console.log("submit login");
-    console.log(loginData);
+    //vulnerability fix: CWE-532: Insertion of sensitive information into Log file: console.log(loginData); is removed
     e.preventDefault();
 
     try {
